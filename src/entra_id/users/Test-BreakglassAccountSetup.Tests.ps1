@@ -14,8 +14,6 @@ BeforeAll {
         }
     }
 
-    # Install-Module -Name Microsoft.Graph
-    # Install-Module -Name Pester
     Import-Module Microsoft.Graph.Authentication
     Import-Module Microsoft.Graph.Users
     Import-Module Microsoft.Graph.Groups
