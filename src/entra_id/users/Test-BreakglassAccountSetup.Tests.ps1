@@ -64,7 +64,7 @@ Describe "Entra ID Break Glass Accounts Configuration" {
         }
 
         It "Should have the account enabled for Break Glass 1" {
-            $breakGlassUser1.AccountEnabled | Should -BeTrue
+            $breakGlassUser1.AccountEnabled | Should -Be "True"
         }
 
         It "Should have Break Glass 1 in the Global Administrator role" {
@@ -102,7 +102,7 @@ Describe "Entra ID Break Glass Accounts Configuration" {
         }
 
         It "Should have the account enabled for Break Glass 2" {
-            $breakGlassUser2.AccountEnabled | Should -BeTrue
+            $breakGlassUser2.AccountEnabled | Should -Be "True"
         }
 
         It "Should have Break Glass 2 in the Global Administrator role" {
