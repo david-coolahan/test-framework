@@ -20,17 +20,6 @@ BeforeAll {
     Connect-MgGraph -Scopes "Directory.ReadWrite.All"
 }
 
-# To configure M36 >> Configure 'EnableGroupCreation' object in the 'groupSettings' object.
-
-
-# List groupSettigTemplates resource type [Get-MgGroupSettingTemplateGroupSettingTemplate]>> Fiter for Group.Unified object >> 'EnableGroupCreation' setting
-
-# ______________________________
-# To configure security groups >> update 'allowedToCreateSecurityGroups' property of 'defaultUserRolePermissions' in the 'authorizationPolicy' resource type.
-
-
-# >> 
-
 Describe "Entra ID General Group Settings" {
 
     # Context "Self Service Group Management" {
@@ -43,11 +32,15 @@ Describe "Entra ID General Group Settings" {
     #     }
     # }
 
-    # Context "Security Groups" {
-    #     It "Should not allow users to create security groups in Azure portals, API or PowerShell" {
-
-    #     }
-    # }
+    Context "Security Groups" {
+        BeforeAll {
+            $AllowedToCreateSecurityGroupsValue = Get-MgPolicyAuthorizationPolicy | Select-Object -ExpandProperty "DefaultUserRolePermissions" | Select-Object -ExpandProperty "AllowedToCreateSecurityGroups"
+        }
+        It "Should not allow users to create security groups in Azure portals, API or PowerShell" {
+            # $AllowedToCreateSecurityGroupsValue is of type boolean
+            $AllowedToCreateSecurityGroupsValue | Should -Be $false
+        }
+    }
 
     Context "Microsoft 365 Groups" {
         BeforeAll {
