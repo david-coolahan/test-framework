@@ -24,11 +24,11 @@ Describe "Entra ID General Group Settings" {
 
     # Context "Self Service Group Management" {
     #     It "Should prevent owners managing group membership requests in My Groups" {
-
+        # No API Available
     #     }
 
     #     It "Should not restrict user ability to access groups features in My Groups." {
-
+        # No API Available
     #     }
     # }
 
