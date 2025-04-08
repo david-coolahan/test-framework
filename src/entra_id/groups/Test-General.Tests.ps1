@@ -10,7 +10,7 @@ BeforeAll {
         else
         {
             Write-Host $module "needs to be installed. Press 'Y' to install the module."
-            Install-Module -Name $module
+            Install-Module -Name $module -Force
         }
     }
 
