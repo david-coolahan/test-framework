@@ -11,4 +11,5 @@ foreach ( $module in $modules )
         Install-Module -Name $module -Force
     }
 }
+Set-Location ./src
 Invoke-Pester
