@@ -15,5 +15,6 @@ Set-Location ./repo/src
 $result = Invoke-Pester
 
 if ($result.FailedCount -gt 0) {
-    throw "$($result.FailedCount) tests failed."
+    Write-Host "$($result.FailedCount) tests failed."
+    exit 1
 }
