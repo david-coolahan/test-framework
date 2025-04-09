@@ -12,9 +12,9 @@ foreach ( $module in $modules )
     }
 }
 Set-Location ./repo/src
-$result = Invoke-Pester -CI
+$result = Invoke-Pester -CI -EnableExit
 
-if ($result.FailedCount -gt 0) {
-    Write-Host "$($result.FailedCount) tests failed."
-    exit 1
-}
+# if ($result.FailedCount -gt 0) {
+#     Write-Host "$($result.FailedCount) tests failed."
+#     exit 1
+# }
