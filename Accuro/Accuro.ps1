@@ -12,4 +12,4 @@ foreach ( $module in $modules )
     }
 }
 Set-Location ./repo/src
-Invoke-Pester -CI
+Invoke-Pester
