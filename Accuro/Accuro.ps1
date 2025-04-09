@@ -18,3 +18,5 @@ if ($result.FailedCount -gt 0) {
     Write-Host "$($result.FailedCount) tests failed."
     exit 1
 }
+
+Write-Host "AFTER CONDITIONAL"
