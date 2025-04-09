@@ -17,7 +17,7 @@ BeforeAll {
     Import-Module Microsoft.Graph.Groups
     Import-Module Microsoft.Graph.Identity.DirectoryManagement
     Import-Module Pester
-    Connect-MgGraph -Scopes "Directory.Read.All"
+    # Connect-MgGraph -Scopes "Directory.Read.All"
 }
 
 Describe "Entra ID General Group Settings" {
