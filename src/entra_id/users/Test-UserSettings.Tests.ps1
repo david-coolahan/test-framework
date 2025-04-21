@@ -5,9 +5,13 @@ BeforeAll {
 }
 
 Describe "Entra ID User Settings" {
+    BeforeAll {
+        $AuthorisationPolicy = Get-MgPolicyAuthorizationPolicy
+    }
+
     Context "Default User Role Permissions" {
         BeforeAll {
-            $DefaultUserRolePermissions = Get-MgPolicyAuthorizationPolicy | Select-Object -ExpandProperty "DefaultUserRolePermissions"
+            $DefaultUserRolePermissions = $AuthorisationPolicy | Select-Object -ExpandProperty "DefaultUserRolePermissions"
         }
 
         It "User can register application" {
@@ -15,7 +19,7 @@ Describe "Entra ID User Settings" {
         }
 
         It "Restrict non-admin users from creating tenants" {
-            $DefaultUserRolePermissions.AllowedToCreateTenants | Should -Be $true
+            $DefaultUserRolePermissions.AllowedToCreateTenants | Should -Be $false
         }
 
         It "Users can create security groups" {
@@ -23,9 +27,15 @@ Describe "Entra ID User Settings" {
         }
     }
 
-    # Context "Guest User Access" {
+    Context "Guest User Access" {
+        <#
+        'Restricted access' permission level = 2af84b1e-32c8-42b7-82bc-daa82404023b (https://learn.microsoft.com/en-us/entra/identity/users/users-restrict-guest-permissions)
+        #>
+        It "Guest user access restrictions" {
+            $AuthorisationPolicy.GuestUserRoleId | Should -Be "2af84b1e-32c8-42b7-82bc-daa82404023b"
+        }
         
-    # }
+    }
 
     # Context "Administration Center" {
         
