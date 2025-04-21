@@ -37,15 +37,15 @@ Describe "Entra ID User Settings" {
         
     }
 
-    # Context "Administration Center" {
-        
+    # Context "Administration Centre" {
+        # No API Available
     # }
 
     # Context "LinkedIn Account Connections" {
-        
+        # No API Available
     # }
 
     # Context "Show Keep User Signed In" {
-        
+        # No API Available
     # }
 }
