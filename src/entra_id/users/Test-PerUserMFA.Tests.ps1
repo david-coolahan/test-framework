@@ -5,7 +5,7 @@ BeforeAll {
 
 Describe "Per-user MFA" {
     BeforeAll {
-        $batchBody = @{
+        $BatchBody = @{
             requests = @(
               @{
                 id     = "1" # Arbitrary ID
@@ -19,14 +19,14 @@ Describe "Per-user MFA" {
           } | ConvertTo-Json -Depth 5
           
         
-        $result = Invoke-MgGraphRequest -Method POST `
+        $Result = Invoke-MgGraphRequest -Method POST `
           -Uri 'https://graph.microsoft.com/beta/$batch' `
           -Body $batchBody `
           -ContentType "application/json"
         
-        $AllowAppPasswords = $result.responses[0].body.allowAppPasswords
-        $SkipMfaForFederatedUsers   = $result.responses[0].body.trustedIps.skipMfaForFederatedUsers
-        $RememberMfaOnTrustedDevice = $result.responses[0].body.rememberMfaOnTrustedDevice.isEnabled
+        $AllowAppPasswords = $Result.Responses[0].Body.AllowAppPasswords
+        $SkipMfaForFederatedUsers   = $Result.Responses[0].Body.TrustedIps.SkipMfaForFederatedUsers
+        $RememberMfaOnTrustedDevice = $Result.Responses[0].Body.RememberMfaOnTrustedDevice.IsEnabled
     }
 
     Context "Service Settings" {

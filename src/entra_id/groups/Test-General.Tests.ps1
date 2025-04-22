@@ -47,15 +47,15 @@ Describe "Entra ID General Group Settings" {
             $ListSettings = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/groupSettings" -Method GET 
             $EnableGroupCreationValue = $null
             <#
-            If invoking 'List-MgGroupSetting' returns no group setting, then the default value (true) for the 'Group.Unified' object is used
+            If retrieving the list of group settings returns no group setting, then the default value (true) for the 'Group.Unified' object is used
             #>
-            if (-not $listSettings.value -or $listSettings.value.Count -eq 0) 
+            if (-not $ListSettings.Value -or $ListSettings.Value.Count -eq 0) 
             {
                 $EnableGroupCreationValue = "true"
             } 
             else 
             {
-                $EnableGroupCreationValue = ($listSettings.Value.values | Where-Object { $_.name -eq "EnableGroupCreation" }).value 
+                $EnableGroupCreationValue = ($ListSettings.Value.Values | Where-Object { $_.Name -eq "EnableGroupCreation" }).Value 
             }
         }
         It "Should allow users to create Microsoft 365 groups in Azure portals, API or PowerShell" {
