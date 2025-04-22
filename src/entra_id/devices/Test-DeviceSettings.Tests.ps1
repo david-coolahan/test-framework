@@ -1,0 +1,50 @@
+BeforeAll {
+    Import-Module Pester
+    Connect-MgGraph -Scopes "Policy.Read.DeviceConfiguration"
+}
+
+Describe "Device Settings" {
+    BeforeAll {
+        $DeviceGraphResult = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/beta/policies/deviceRegistrationPolicy" -Method GET
+        $AuthorisationGraphResult = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/beta/policies/authorizationPolicy/authorizationPolicy" -Method GET
+    }
+
+    Context "Microsoft Entra Join and Registration Settings" {
+        It "Should allow user to join devices to Microsoft Entra" {
+            $DeviceGraphResult.AzureADJoin.AllowedToJoin.'@odata.type' | Should -Be "#microsoft.graph.allDeviceRegistrationMembership"
+        }
+
+        It "Should allow users to register their devices in Microsoft Entra" {
+            $DeviceGraphResult.AzureADRegistration.AllowedToRegister.'@odata.type' | Should -Be "#microsoft.graph.allDeviceRegistrationMembership"
+        }
+
+        It "Should require multifactor authentication to register or join devices with Microsoft Entra" {
+            $DeviceGraphResult.MultiFactorAuthConfiguration | Should -Be "notRequired"
+        }
+
+        # 2147483647 is the value when you select the "Unlimited" option for the setting
+        It "Should have an unlimited maximum number of devices per user" {
+            $DeviceGraphResult.UserDeviceQuota | Should -Be 2147483647
+        }
+    }
+
+    Context "Local Administrator Settings" {
+        It "Should have the global administrator role is added as local administrator on the device during Microsoft Entra join (Preview)" {
+            $DeviceGraphResult.AzureADJoin.LocalAdmins.EnableGlobalAdmins | Should -Be $false
+        }
+
+        It "Should register a user as a local administrator on a device during Microsoft Entra join (Preview)" {
+            $DeviceGraphResult.AzureADJoin.LocalAdmins.RegisteringUsers.'@odata.type' | Should -Be "#microsoft.graph.noDeviceRegistrationMembership"
+        }
+
+        It "Should have Microsoft Entra Local Administrator Password Solution (LAPS) enabled" {
+            $DeviceGraphResult.LocalAdminPassword.IsEnabled | Should -Be $true
+        }
+    }
+
+    Context "Other Settings" {
+        It "Should restrict users from recovering the BitLocker key(s) for their owned devices" {
+            $AuthorisationGraphResult.DefaultUserRolePermissions.AllowedToReadBitlockerKeysForOwnedDevice | Should -Be $true
+        }
+    }
+}
