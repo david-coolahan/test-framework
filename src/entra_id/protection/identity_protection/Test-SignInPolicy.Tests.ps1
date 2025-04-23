@@ -1,8 +1,8 @@
 # No API endpoint available
 # Requires P2 license
 
-# Describe "User Risk Policy" {
-#     Context "User Risk Remediation Policy" {
+# Describe "Sign-in Risk Policy" {
+#     Context "Sign-in Risk Remediation Policy" {
 #         No API Available
 #     }
 # }
