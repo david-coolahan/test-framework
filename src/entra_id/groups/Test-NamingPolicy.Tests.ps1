@@ -10,13 +10,13 @@ Describe "Naming Policy" {
 
     Context "Blocked Words" {
         It "Should not have a blocked word list configured" {
-            ($GroupSettings | Where-Object { $_.name -eq "CustomBlockedWordsList" }).Value | Should -BeNullOrEmpty
+            ($GroupSettings | Where-Object { $_.Name -eq "CustomBlockedWordsList" }).Value | Should -BeNullOrEmpty
         }
     }
 
     Context "Group Naming Policy" {
         It "Should not have a prefix and sufix configured" {
-            ($GroupSettings | Where-Object { $_.name -eq "PrefixSuffixNamingRequirement" }).Value | Should -BeNullOrEmpty
+            ($GroupSettings | Where-Object { $_.Name -eq "PrefixSuffixNamingRequirement" }).Value | Should -BeNullOrEmpty
         }
     }
 }

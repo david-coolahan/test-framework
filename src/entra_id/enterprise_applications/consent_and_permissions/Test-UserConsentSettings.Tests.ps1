@@ -1,5 +1,6 @@
 BeforeAll {
-
+    Import-Module Pester
+    
 }
 
 Describe "User Consent Settings" {

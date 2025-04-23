@@ -1,6 +1,6 @@
 BeforeAll {
     Import-Module Pester
-    Connect-MgGraph -Scopes "Policy.Read.DeviceConfiguration"
+    # Connect-MgGraph -Scopes "Policy.Read.DeviceConfiguration, Policy.Read.All"
 }
 
 Describe "Device Settings" {

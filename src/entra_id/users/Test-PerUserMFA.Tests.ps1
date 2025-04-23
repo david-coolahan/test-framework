@@ -1,6 +1,6 @@
 BeforeAll {
     Import-Module Pester
-    Connect-MgGraph -Scopes "Policy.Read.All"
+    # Connect-MgGraph -Scopes "Policy.Read.All"
 }
 
 Describe "Per-user MFA" {
