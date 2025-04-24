@@ -47,7 +47,7 @@ Describe "Per-user MFA" {
     Context "Methods Available to Users" {
         BeforeAll {
             $AuthenticationMethodPolicy = (Get-MgPolicyAuthenticationMethodPolicy).AuthenticationMethodConfigurations
-            $HardwareTokenConfiguration = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/beta/policies/authenticationMethodsPolicy/authenticationMethodConfigurations/hardwareOath" -Method GET 
+            $HardwareTokenConfiguration = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/beta/policies/authenticationMethodsPolicy/authenticationMethodConfigurations/fido2" -Method GET 
         }
 
         # Default is Microsoft Authenticator. If another solution is used, this test will need to be updated.
@@ -56,6 +56,7 @@ Describe "Per-user MFA" {
             $MobileApp.State | Should -Be "enabled"
         }
 
+        # Only authentication methods are Passkey (FIDO2), Microsoft Authenticator and Temporary Access Pass (https://blueprint.asd.gov.au/configuration/entra-id/protection/authentication-methods/policies/)
         It "Should allow verification code from hardware token" {
             $HardwareTokenConfiguration.State | Should -Be "enabled"
         }
