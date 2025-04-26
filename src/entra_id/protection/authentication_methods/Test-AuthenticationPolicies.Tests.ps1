@@ -151,7 +151,7 @@ Describe "Policies" {
         }
 
         # It "Should exclude those in the relevant conditional access group" {
-        #     $TAPSettings.ExcludeTargets | Sort-Object | Should -Be ($MSAuthExcludeGroup | Sort-Object)
+        #     $TAPSettings.ExcludeTargets | Sort-Object | Should -Be ($TAPExcludeGroup | Sort-Object)
         # }
 
         It "Should have minimum lifetime of 1 hour" {
