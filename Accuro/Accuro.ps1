@@ -14,5 +14,6 @@ foreach ( $module in $modules )
 Set-Location ./repo/src
 $PesterConfiguration = New-PesterConfiguration
 $PesterConfiguration.TestResult.Enabled = $true
-$PesterConfiguration.Run.Exit = $true
+$PesterConfiguration.Should.ErrorAction = 'Stop'
+$PesterConfiguration.Run.Throw = $true
 $result = Invoke-Pester -Configuration $PesterConfiguration
