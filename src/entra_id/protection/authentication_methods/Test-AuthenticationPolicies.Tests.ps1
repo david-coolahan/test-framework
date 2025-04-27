@@ -29,7 +29,7 @@ Describe "Policies" {
         BeforeAll {
             $Fido2Settings = $GraphResult.AuthenticationMethodConfigurations | Where-Object { $_.Id -eq "Fido2"}
             $Fido2ExcludeGroup = @("<INSERT GROUP IDS>")
-            $Fido2AAGUIDs = @("<Insert Organisation's Fido2AAGUIDs>")
+            $Fido2AAGUIDs = @("<Insert Organisation's Fido2 AAGUIDs>")
             # iOS Microsoft Authenticator: 90a3ccdf-635c-4729-a248-9b709135078f, Android Microsoft Authenticator: de1e552d-db1d-4423-a619-566b625cdc84
             $MicrosoftAuthenticatorAAGUIDs = @("90a3ccdf-635c-4729-a248-9b709135078f", "de1e552d-db1d-4423-a619-566b625cdc84")
 

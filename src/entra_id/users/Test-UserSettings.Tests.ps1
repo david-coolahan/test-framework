@@ -1,17 +1,18 @@
 BeforeAll {
-    Import-Module Microsoft.Graph.Identity.SignIns
+    # Import-Module Microsoft.Graph.Identity.SignIns
     Import-Module Pester
-    Connect-MgGraph -Scopes "Policy.Read.All"
+    # Connect-MgGraph -Scopes "Policy.Read.All"
 }
 
 Describe "Entra ID User Settings" {
     BeforeAll {
-        $AuthorisationPolicy = Get-MgPolicyAuthorizationPolicy
+        # $AuthorisationPolicy = Get-MgPolicyAuthorizationPolicy
+        $AuthorisationGraphResult = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/policies/authorizationPolicy" -Method GET
     }
 
     Context "Default User Role Permissions" {
         BeforeAll {
-            $DefaultUserRolePermissions = $AuthorisationPolicy | Select-Object -ExpandProperty "DefaultUserRolePermissions"
+            $DefaultUserRolePermissions = $AuthorisationGraphResult.DefaultUserRolePermissions
         }
 
         It "User can register application" {
@@ -32,7 +33,7 @@ Describe "Entra ID User Settings" {
         'Restricted access' permission level = 2af84b1e-32c8-42b7-82bc-daa82404023b (https://learn.microsoft.com/en-us/entra/identity/users/users-restrict-guest-permissions)
         #>
         It "Guest user access restrictions" {
-            $AuthorisationPolicy.GuestUserRoleId | Should -Be "2af84b1e-32c8-42b7-82bc-daa82404023b"
+            $AuthorisationGraphResult.GuestUserRoleId | Should -Be "2af84b1e-32c8-42b7-82bc-daa82404023b"
         }
         
     }

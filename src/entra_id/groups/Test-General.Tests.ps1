@@ -34,7 +34,9 @@ Describe "Entra ID General Group Settings" {
 
     Context "Security Groups" {
         BeforeAll {
-            $AllowedToCreateSecurityGroupsValue = Get-MgPolicyAuthorizationPolicy | Select-Object -ExpandProperty "DefaultUserRolePermissions" | Select-Object -ExpandProperty "AllowedToCreateSecurityGroups"
+            # $AllowedToCreateSecurityGroupsValue = Get-MgPolicyAuthorizationPolicy | Select-Object -ExpandProperty "DefaultUserRolePermissions" | Select-Object -ExpandProperty "AllowedToCreateSecurityGroups"
+            $AuthorisationGraphResult = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/policies/authorizationPolicy" -Method GET
+            $AllowedToCreateSecurityGroupsValue = $AuthorisationGraphResult.DefaultUserRolePermissions.AllowedToCreateSecurityGroups
         }
         It "Should not allow users to create security groups in Azure portals, API or PowerShell" {
             # $AllowedToCreateSecurityGroupsValue is of type boolean
