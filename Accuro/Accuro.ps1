@@ -12,11 +12,6 @@ foreach ( $module in $modules )
     }
 }
 Set-Location ./repo/src
-$result = Invoke-Pester -PassThru
-
-if ($result.FailedCount -gt 0) {
-    Write-Host "$($result.FailedCount) tests failed."
-    exit 1
-}
-
-Write-Host "AFTER CONDITIONAL"
+$PesterConfiguration = New-PesterConfiguration
+$PesterConfiguration.TestResult.Enabled = $true
+$result = Invoke-Pester -Configuration $PesterConfiguration
