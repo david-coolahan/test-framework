@@ -7,8 +7,10 @@ Describe "Registration Campaign" {
     BeforeAll {
         $GraphResult = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/policies/authenticationMethodsPolicy" -Method GET
         $RegistrationEnforcement = $GraphResult.RegistrationEnforcement.AuthenticationMethodsRegistrationCampaign
-        $ExcludedUsers = @("<INSERT USER IDs>")
-        $ExcludedGroups = @("<INSERT GROUP IDs>")
+        # $ExcludedUsers = @("<INSERT USER IDs>") # If none set to $null
+        $ExcludedUsers = $null
+        # $ExcludedGroups = @("<INSERT GROUP IDs>") # If none set to $null
+        $ExcludedGroups = $null
     }
 
     Context "Settings" {
