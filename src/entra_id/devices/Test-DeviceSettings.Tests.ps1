@@ -18,7 +18,7 @@ Describe "Device Settings" {
             $DeviceGraphResult.AzureADRegistration.AllowedToRegister.'@odata.type' | Should -Be "#microsoft.graph.allDeviceRegistrationMembership"
         }
 
-        It "Should require multifactor authentication to register or join devices with Microsoft Entra" {
+        It "Should not require multifactor authentication to register or join devices with Microsoft Entra" {
             $DeviceGraphResult.MultiFactorAuthConfiguration | Should -Be "notRequired"
         }
 
@@ -29,11 +29,11 @@ Describe "Device Settings" {
     }
 
     Context "Local Administrator Settings" {
-        It "Should have the global administrator role is added as local administrator on the device during Microsoft Entra join (Preview)" {
+        It "Should not have the global administrator role added as local administrator on the device during a Microsoft Entra join (Preview)" {
             $DeviceGraphResult.AzureADJoin.LocalAdmins.EnableGlobalAdmins | Should -Be $false
         }
 
-        It "Should register a user as a local administrator on a device during Microsoft Entra join (Preview)" {
+        It "Should not register a user as a local administrator on a device during a Microsoft Entra join (Preview)" {
             $DeviceGraphResult.AzureADJoin.LocalAdmins.RegisteringUsers.'@odata.type' | Should -Be "#microsoft.graph.noDeviceRegistrationMembership"
         }
 
@@ -43,7 +43,7 @@ Describe "Device Settings" {
     }
 
     Context "Other Settings" {
-        It "Should restrict users from recovering the BitLocker key(s) for their owned devices" {
+        It "Should not restrict users from recovering the BitLocker key(s) for their owned devices" {
             $AuthorisationGraphResult.DefaultUserRolePermissions.AllowedToReadBitlockerKeysForOwnedDevice | Should -Be $true
         }
     }
