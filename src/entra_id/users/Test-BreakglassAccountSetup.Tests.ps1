@@ -110,7 +110,7 @@ Describe "Entra ID Break Glass Accounts Configuration" {
         }
 
         It "Should have the account enabled for Break Glass 2" {
-            $BreakGlassUser2.AccountEnabled | Should -Be "True"
+            $BreakGlassUser2.AccountEnabled | Should -Be $true
         }
 
         It "Should have Break Glass 2 in the Global Administrator role" {
