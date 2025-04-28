@@ -19,7 +19,7 @@ BeforeAll {
     Import-Module Microsoft.Graph.Groups
     Import-Module Microsoft.Graph.Identity.DirectoryManagement
     Import-Module Pester
-    Connect-MgGraph -Scopes "GroupMember.Read.All, Group.Read.All, Directory.Read.All, RoleManagement.Read.Directory"
+    # Connect-MgGraph -Scopes "GroupMember.Read.All, Group.Read.All, Directory.Read.All, RoleManagement.Read.Directory"
 }
 
 
