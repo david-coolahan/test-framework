@@ -21,9 +21,9 @@ Describe "Policies" {
 
     }
 
-    # It "Should have the correct authentication method policies" {
-    #     $EnabledMethods | Sort-Object | Should -Be ($ExpectedEnabledMethods | Sort-Object)
-    # }
+    It "Should have the correct authentication method policies" {
+        $EnabledMethods | Sort-Object | Should -Be ($ExpectedEnabledMethods | Sort-Object)
+    }
 
     Context "Passkey (FIDO2) Settings" {
         BeforeAll {
@@ -43,9 +43,6 @@ Describe "Policies" {
             $Fido2Settings.IncludeTargets.Id | Should -Be "all_users"
         }
 
-        # It "Should exclude those in the relevant conditional access group" {
-        #     $Fido2Settings.ExcludeTargets | Sort-Object | Should -Be ($Fido2ExcludeGroup | Sort-Object)
-        # }
 
         It "Should have self service set up" {
             $Fido2Settings.IsSelfServiceRegistrationAllowed | Should -Be $true
@@ -75,9 +72,6 @@ Describe "Policies" {
             $IdentifiedAuthenticatorAAGUIDs | Should -BeNullOrEmpty
         }
 
-        # It "Should have the organisation's AAGUIDs enabled" {
-        #     $Fido2Settings.keyRestrictions.AaGuids | Should -Contain $Fido2AAGUIDs
-        # }
     }
 
     Context "Microsoft Authenticator Settings" {
@@ -93,10 +87,6 @@ Describe "Policies" {
         It "Should target all users" {
             $MSAuthSettings.IncludeTargets.Id | Should -Be "all_users"
         }
-
-        # It "Should exclude those in the relevant conditional access group" {
-        #     $MSAuthSettings.ExcludeTargets | Sort-Object | Should -Be ($MSAuthExcludeGroup | Sort-Object)
-        # }
 
         It "Should not allow use of Microsoft Authenticator OTP" {
             $MSAuthSettings.IsSoftwareOathEnabled | Should -Be $false
@@ -150,9 +140,6 @@ Describe "Policies" {
             $TAPSettings.IncludeTargets.Id | Should -Be "all_users"
         }
 
-        # It "Should exclude those in the relevant conditional access group" {
-        #     $TAPSettings.ExcludeTargets | Sort-Object | Should -Be ($TAPExcludeGroup | Sort-Object)
-        # }
 
         It "Should have minimum lifetime of 1 hour" {
             $TAPSettings.MinimumLifetimeInMinutes | Should -Be 60
