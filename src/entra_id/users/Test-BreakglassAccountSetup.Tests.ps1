@@ -19,7 +19,7 @@ BeforeAll {
     Import-Module Microsoft.Graph.Groups
     Import-Module Microsoft.Graph.Identity.DirectoryManagement
     Import-Module Pester
-    # Connect-MgGraph -Scopes "GroupMember.Read.All, Group.Read.All, Directory.Read.All, RoleManagement.Read.Directory"
+    Connect-MgGraph -Scopes "GroupMember.Read.All, Group.Read.All, Directory.Read.All, RoleManagement.Read.Directory"
 }
 
 
@@ -48,11 +48,15 @@ Describe "Entra ID Break Glass Accounts Configuration" {
 
     Context "Break Glass User 1" {
         BeforeAll {
-            $BreakGlassUser1 = Get-MgUser -Filter "userPrincipalName eq '$($BreakGlassUser1PrincipalName)'" -Property "DisplayName, UsageLocation, AccountEnabled"
+            $BreakGlassUser1 = Get-MgUser -Filter "userPrincipalName eq '$($BreakGlassUser1PrincipalName)'" -Property "DisplayName, UsageLocation, AccountEnabled, UserType"
         }
 
         It "Should have the Break Glass 1 user created" {
             $BreakGlassUser1 | Should -Not -BeNullOrEmpty
+        }
+
+        It "Should have the 'member' type" {
+            $BreakGlassUser1.UserType | Should -Be "Member"
         }
 
         It "Should have the correct display name for Break Glass 1" {
@@ -64,7 +68,7 @@ Describe "Entra ID Break Glass Accounts Configuration" {
         }
 
         It "Should have the account enabled for Break Glass 1" {
-            $BreakGlassUser1.AccountEnabled | Should -Be "True"
+            $BreakGlassUser1.AccountEnabled | Should -Be $true
         }
 
         It "Should have Break Glass 1 in the Global Administrator role" {
@@ -86,11 +90,15 @@ Describe "Entra ID Break Glass Accounts Configuration" {
 
     Context "Break Glass User 2" {
         BeforeAll {
-            $BreakGlassUser2 = Get-MgUser -Filter "userPrincipalName eq '$($BreakGlassUser2PrincipalName)'" -Property "DisplayName, UsageLocation, AccountEnabled"
+            $BreakGlassUser2 = Get-MgUser -Filter "userPrincipalName eq '$($BreakGlassUser2PrincipalName)'" -Property "DisplayName, UsageLocation, AccountEnabled, UserType"
         }
 
         It "Should have the Break Glass 2 user created" {
             $BreakGlassUser2 | Should -Not -BeNullOrEmpty
+        }
+
+        It "Should have the 'member' type" {
+            $BreakGlassUser2.UserType | Should -Be "Member"
         }
 
         It "Should have the correct display name for Break Glass 2" {
