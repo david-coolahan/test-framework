@@ -1,4 +1,9 @@
 # Requies P1/P2 licensing
+<#
+Pester Module: https://www.powershellgallery.com/packages/Pester/5.3.1
+Microsoft.Graph Module: https://www.powershellgallery.com/packages/Microsoft.Graph/1.7.0
+#>
+
 BeforeAll {
     Import-Module Pester
 }

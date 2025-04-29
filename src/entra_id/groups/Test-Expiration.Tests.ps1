@@ -1,4 +1,8 @@
-# Expiration policy for a M365 group equires Microsoft Entra ID P1 or P2 licenses (https://learn.microsoft.com/en-us/entra/identity/users/groups-lifecycle)
+<#
+Pester Module: https://www.powershellgallery.com/packages/Pester/5.3.1
+Microsoft.Graph Module: https://www.powershellgallery.com/packages/Microsoft.Graph/1.7.0
+Expiration policy for a M365 group equires Microsoft Entra ID P1 or P2 licenses (https://learn.microsoft.com/en-us/entra/identity/users/groups-lifecycle)
+#>
 
 BeforeAll {
     Import-Module Pester

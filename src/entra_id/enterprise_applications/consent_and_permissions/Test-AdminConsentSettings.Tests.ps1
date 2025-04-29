@@ -1,4 +1,7 @@
 <#
+Pester Module: https://www.powershellgallery.com/packages/Pester/5.3.1
+Microsoft.Graph Module: https://www.powershellgallery.com/packages/Microsoft.Graph/1.7.0
+
 No API endpoints available to configure the settings:
 - Selected users will receive email notifications for requests​
 - Selected users will receive request expiration reminders​
