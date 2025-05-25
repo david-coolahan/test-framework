@@ -11,7 +11,7 @@
 #         $CAExcludeGroup = @("<INSERT GROUP ID>")
 #     }
 
-#     Contex "Enable Policy" {
+#     Context "Enable Policy" {
 #         It "Should have the policy enabled" {
 #             $Policy.State | Should -Be "enabled"
 #         }
@@ -67,6 +67,37 @@
 #             $Policy.Conditions.Locations | Should -BeNullOrEmpty
 #         }
 #     }
+
+    #   Context "Conditions" {
+    #     It "Should not have user risk levels configured" {
+    #         $Policy.Conditions.UserRiskLevels | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have sign in risk levels configured" {
+    #         $Policy.Conditions.SignInRiskLevels | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have insider risk levels configured" {
+    #         $Policy.Conditions.SignInRiskLevels | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have device platforms configured" {
+    #         $Policy.Conditions.Platforms | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have client applications configured" {
+    #         $Policy.Conditions.ClientApplications | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not filter for devices" {
+    #         $Policy.Conditions.Devices | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have authentication flows configured" {
+    #         $Policy.Conditions.AuthenticationFlows | Should -BeNullOrEmpty
+    #     }
+
+    #   }
 
 #     Context "Grant" {
 #         It "Should control access enforcement to grant access" {
