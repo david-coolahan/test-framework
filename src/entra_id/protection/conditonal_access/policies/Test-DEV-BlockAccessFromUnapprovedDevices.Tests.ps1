@@ -28,13 +28,13 @@ Describe "DEV - B - Block Access from Unapproved Devices" {
         }
     }
 
-
-
-
     Context "Target Resources" {
-        It "Should include all resources" {
+        It "Should include all resources (formerly 'All cloud apps')" {
+            $Policy.Conditions.Applications.IncludeApplications | Should -Be @("All")
         }
-        It "Should not exclude any resources" {
+
+        It "Should not exclude any applications" {
+            $Policy.Conditions.Applications.ExludeApplications | Should -BeNullOrEmpty
         }
     }
 
