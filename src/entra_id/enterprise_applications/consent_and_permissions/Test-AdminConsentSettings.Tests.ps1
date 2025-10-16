@@ -1,30 +1,33 @@
-<#
-Pester Module: https://www.powershellgallery.com/packages/Pester/5.3.1
-Microsoft.Graph Module: https://www.powershellgallery.com/packages/Microsoft.Graph/1.7.0
+Import-Module Microsoft.Graph
 
-No API endpoints available to configure the settings:
-- Selected users will receive email notifications for requests​
-- Selected users will receive request expiration reminders​
-- Consent request expires after (days)​
+Describe "Admin Consent Settings Validation" {
+    BeforeEach {
+        # Authenticate to Microsoft Graph
+        $scopes = "User.Read.All", "Directory.Read.All"
+        Connect-MgOrganization -Scopes $scopes -ScopeId "https://graph.microsoft.com"
+    }
 
-However, the setting 'Users can request admin consent to apps they are unable to consent to​' makes
-the previous settings redundant.
-#> 
+    It "Should verify admin consent is disabled" {
+        $setting = Get-MgDirectorySetting -SettingId "Consent"
+        $setting | Should Not Be $null
+        $setting | Should HaveProperty "AllowAdminConsent" -Exactly 0
+    }
 
-BeforeAll {
-    Import-Module Pester
-}
+    It "Should confirm email notifications are enabled for admin consent requests" {
+        $setting = Get-MgDirectorySetting -SettingId "Consent"
+        $setting | Should Not Be $null
+        $setting | Should HaveProperty "EnableEmailNotificationsForAdminConsentRequests" -Exactly 1
+    }
 
-Describe "Admin Consent Settings" {
-    Context "Admin Consent Requests" {
-        BeforeAll {
-            $GroupGraphResult = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/groupSettings" -Method GET
-            $GroupSettings = $GroupGraphResult.Value.Values
-        }
+    It "Should ensure reminders are enabled for admin consent requests" {
+        $setting = Get-MgDirectorySetting -SettingId "Consent"
+        $setting | Should Not Be $null
+        $setting | Should HaveProperty "EnableRemindersForAdminConsentRequests" -Exactly 1
+    }
 
-        # "EnableAdminConsentRequests" value is returned as a string
-        It "Should not allow users to request admin consent to apps they are unable to consent to" {
-            ($GroupSettings | Where-Object { $_.Name -eq "EnableAdminConsentRequests" }).Value | Should -Be "false"
-        }
+    It "Should validate consent request expiration is set to 30 days" {
+        $setting = Get-MgDirectorySetting -SettingId "Consent"
+        $setting | Should Not Be $null
+        $setting | Should HaveProperty "ConsentRequestExpiryInDays" -Exactly 30
     }
 }
