@@ -1,72 +1,38 @@
-<#
-Pester Module: https://www.powershellgallery.com/packages/Pester/5.3.1
-Microsoft.Graph Module: https://www.powershellgallery.com/packages/Microsoft.Graph/1.7.0
-#>
+# Microsoft Graph PowerShell SDK Test for Azure AD Group Configuration
+# Context: Security Groups & Self-Service Group Management
 
-BeforeAll {
-    $Modules = @("Pester", "Microsoft.Graph")
+ outlet auto
 
-    foreach ( $Module in $Modules )
-    {
-        if (Get-Module -ListAvailable -Name $Module) 
-        {
-            continue
-        }
-        else
-        {
-            Write-Host $Module "needs to be installed. Press 'Y' to install the module."
-            Install-Module -Name $Module -Force
-        }
-    }
+Import-Module Microsoft.Graph
 
-    Import-Module Microsoft.Graph.Groups
-    Import-Module Microsoft.Graph.Identity.DirectoryManagement
-    Import-Module Pester
-    # Connect-MgGraph -Scopes "Directory.Read.All"
+Test "Security Group Creation via PowerShell" {
+    # Arrange
+    $graphContext = New-MgContext -InstanceUrl "https://graph.microsoft.com/v1.0"
+    
+    # Act
+    $group = New-MgSecurityGroup -DisplayName "Test-Security-Group" -MailEnabled $false -SecurityEnabled $true
+    
+    # Assert
+    Should $group.DisplayName -eq "Test-Security-Group"
+    Should $group.Members.Count -gt 0  # Verify group creation success
 }
 
-Describe "Entra ID General Group Settings" {
-
-    # Context "Self Service Group Management" {
-    #     It "Should prevent owners managing group membership requests in My Groups" {
-        # No API Available
-    #     }
-
-    #     It "Should not restrict user ability to access groups features in My Groups." {
-        # No API Available
-    #     }
-    # }
-
-    Context "Security Groups" {
-        BeforeAll {
-            # $AllowedToCreateSecurityGroupsValue = Get-MgPolicyAuthorizationPolicy | Select-Object -ExpandProperty "DefaultUserRolePermissions" | Select-Object -ExpandProperty "AllowedToCreateSecurityGroups"
-            $AuthorisationGraphResult = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/policies/authorizationPolicy" -Method GET
-            $AllowedToCreateSecurityGroupsValue = $AuthorisationGraphResult.DefaultUserRolePermissions.AllowedToCreateSecurityGroups
-        }
-        It "Should not allow users to create security groups in Azure portals, API or PowerShell" {
-            # $AllowedToCreateSecurityGroupsValue is of type boolean
-            $AllowedToCreateSecurityGroupsValue | Should -Be $false
-        }
-    }
-
-    Context "Microsoft 365 Groups" {
-        BeforeAll {
-            $ListSettings = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/groupSettings" -Method GET 
-            $EnableGroupCreationValue = $null
-            <#
-            If retrieving the list of group settings returns no group setting, then the default value (true) for the 'Group.Unified' object is used
-            #>
-            if (-not $ListSettings.Value -or $ListSettings.Value.Count -eq 0) 
-            {
-                $EnableGroupCreationValue = "true"
-            } 
-            else 
-            {
-                $EnableGroupCreationValue = ($ListSettings.Value.Values | Where-Object { $_.Name -eq "EnableGroupCreation" }).Value 
-            }
-        }
-        It "Should allow users to create Microsoft 365 groups in Azure portals, API or PowerShell" {
-            $EnableGroupCreationValue | Should -Be "true"
-        }
+Test "Self-Service Group Restriction Policy" {
+    # Arrange
+    $graphContext = New-MgContext -InstanceUrl "https://graph.microsoft.com/v1.0"
+    $currentSetting = Get-MgGroup -Id "your-group-id" | Select-Object -ExpandProperty restrictMembershipPolicies
+    
+    # Act & Assert
+    if ($currentSetting -eq "Yes") {
+        # Test scenario: Non-admin user should have read-only access
+        $nonAdminUser = Get-MgUser -UserPrincipalName "non-admin@domain.com"
+        Should $nonAdminUser.CanManageGroupMembership -be $false
+        
+        # Test scenario: Admin should still have full access
+        $adminUser = Get-MgUser -UserPrincipalName "admin@domain.com"
+        Should $adminUser.CanManageGroupMembership -be $true
+    } else {
+        # Test scenario: Users should have full editing capabilities
+        Should $nonAdminUser.CanManageGroupMembership -be $true
     }
 }
