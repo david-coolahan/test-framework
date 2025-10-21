@@ -16,10 +16,10 @@ Describe "Authentication Strengths" {
             $Policy = $GraphResponse.Value | Where-Object { $_.DisplayName -eq "Phishing-resistant MFA and TAP" }
             $AuthCombinationsList = $Policy.AllowedCombinations
             $ExpectedAuthList = @(
-                "windowsHelloForBusiness"
-                "fido2"
-                "x509CertificateMultiFactor"
-                "temporaryAccessPassOneTime"
+                "windowsHelloForBusiness",
+                "fido2",
+                "x509CertificateMultiFactor",
+                "temporaryAccessPassOneTime",
                 "temporaryAccessPassMultiUse"
             )
         }

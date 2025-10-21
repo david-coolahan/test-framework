@@ -8,6 +8,7 @@ BeforeAll {
     Import-Module Pester
 }
 
+<<<<<<< HEAD
 Describe "ADM - S - Limit Admin Sessions" {
     BeforeAll {
         $GraphResponse = Invoke-MgGraphRequest -Uri "https://graph.microsoft.com/v1.0/identity/conditionalAccess/policies" -Method GET
@@ -16,6 +17,13 @@ Describe "ADM - S - Limit Admin Sessions" {
         $AdministratorUserGroup = @("<INSERT GROUP ID>")
         $CAExcludeGroup = @("<INSERT GROUP ID>")
     }
+=======
+#     Context "Enable Policy" {
+#         It "Should have the policy enabled" {
+#             $Policy.State | Should -Be "enabled"
+#         }
+#     }
+>>>>>>> 68c7429d8e69b60eb6e04638a27dde74ac1f5eea
 
     Contex "Enable Policy" {
         It "Should have the policy enabled" {
@@ -67,12 +75,50 @@ Describe "ADM - S - Limit Admin Sessions" {
         }
     }
 
+<<<<<<< HEAD
     # This context block refers to the 'Network' section
     Context "Network" {
         It "Should not have locations configured" {
             $Policy.Conditions.Locations | Should -BeNullOrEmpty
         }
     }
+=======
+    #   Context "Conditions" {
+    #     It "Should not have user risk levels configured" {
+    #         $Policy.Conditions.UserRiskLevels | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have sign in risk levels configured" {
+    #         $Policy.Conditions.SignInRiskLevels | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have insider risk levels configured" {
+    #         $Policy.Conditions.SignInRiskLevels | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have device platforms configured" {
+    #         $Policy.Conditions.Platforms | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have client applications configured" {
+    #         $Policy.Conditions.ClientApplications | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not filter for devices" {
+    #         $Policy.Conditions.Devices | Should -BeNullOrEmpty
+    #     }
+
+    #     It "Should not have authentication flows configured" {
+    #         $Policy.Conditions.AuthenticationFlows | Should -BeNullOrEmpty
+    #     }
+
+    #   }
+
+#     Context "Grant" {
+#         It "Should control access enforcement to grant access" {
+#             $Policy.GrantControls.BuiltInControls | Should -Not -Contain "block"
+#         }
+>>>>>>> 68c7429d8e69b60eb6e04638a27dde74ac1f5eea
 
     Context "Grant" {
         It "Should control access enforcement to grant access" {
